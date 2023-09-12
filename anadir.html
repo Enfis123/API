@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Añadir a la Lista</title>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <h1 class="logo">Lista de Compras</h1>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="#">Añadir a la Lista</a></li>
+      <li><a href="consultar.html">Consultar la Lista</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="add-form">
+  <div class="container">
+    <h2>Añadir a la Lista</h2>
+    <form id="addItemForm">
+      <div class="form-group">
+        <label for="id">ID:</label>
+        <input type="number" id="id" name="id" required>
+      </div>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" required>
+      </div>
+      <div class="form-group">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" required>
+      </div>
+      <button type="submit">Crear</button>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2023 Lista de Compras. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById("addItemForm").addEventListener("submit", async function(event) {
+  event.preventDefault();
+  
+  const id = parseInt(document.getElementById("id").value);
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const precio = parseFloat(document.getElementById("precio").value);
+  const cantidad = parseInt(document.getElementById("cantidad").value);
+  
+  const newItem = { ID: id, Nombre: nombre, Descripción: descripcion, Precio: precio, Cantidad: cantidad };
+  
+  const response = await fetch('/api/items', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newItem)
+  });
+  
+  if (response.ok) {
+    alert("Elemento agregado correctamente.");
+    document.getElementById("addItemForm").reset();
+  } else {
+    alert("Hubo un problema al agregar el elemento.");
+  }
+});
+</script>
+
+</body>
+</html>
+

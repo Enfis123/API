@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Consultar Lista de Compras</title>
+  <style>
+    /* Estilos específicos para esta página */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .grid-item {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .item-info {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lista de Compras</h1>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/anadir">Añadir a la Lista</a></li>
+        <li><a href="/consultar">Consultar Lista</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="hero">
+    <div class="overlay"></div>
+    <h2>Consultar Lista de Compras</h2>
+  </div>
+  
+  <div class="container">
+    <div class="grid-container">
+      <!-- Los elementos de Firebase se mostrarán aquí -->
+      
+    </div>
+  </div>
+  <!-- consultar.html -->
+<!-- ... (código HTML anterior) ... -->
+
+<div class="container">
+    <div class="grid-container" id="items-container">
+      <!-- Los elementos de Firebase se mostrarán aquí -->
+    </div>
+  </div>
+  
+  <script>
+    // Realizar una solicitud GET a la API para obtener los elementos de Firebase
+    fetch('/api/items')
+      .then(response => response.json())
+      .then(items => {
+        const itemsContainer = document.getElementById('items-container');
+  
+        // Crear elementos para cada item y agregarlos al contenedor
+        items.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('grid-item');
+  
+          const itemId = document.createElement('p');
+          itemId.classList.add('item-id');
+          itemId.textContent = `ID: ${item.id}`;
+  
+          const itemName = document.createElement('h3');
+          itemName.textContent = item.Nombre;
+  
+          const itemDescription = document.createElement('p');
+          itemDescription.textContent = `Descripción: ${item.Descripción}`;
+  
+          const itemPrice = document.createElement('p');
+          itemPrice.textContent = `Precio: $${item.Precio}`;
+  
+          const itemQuantity = document.createElement('p');
+          itemQuantity.textContent = `Cantidad: ${item.Cantidad} unidades`;
+  
+          itemDiv.appendChild(itemId);
+          itemDiv.appendChild(itemName);
+          itemDiv.appendChild(itemDescription);
+          itemDiv.appendChild(itemPrice);
+          itemDiv.appendChild(itemQuantity);
+  
+          itemsContainer.appendChild(itemDiv);
+        });
+      })
+      .catch(error => {
+        console.error('Error al obtener los elementos:', error);
+      });
+  </script>
+  
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 Lista de Compras</p>
+    </div>
+  </footer>
+</body>
+</html>
